@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Congratulations</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="d-flex align-items-center justify-content-center vh-100 bg-success text-white">
+
+    
+    
+  <div class="text-center">
+    <h1>🎉 Congratulations!</h1>
+    <p id="message" class="fs-4"></p>
+    <a href="index.html" class="btn btn-light mt-4">Back to Home</a>
+  </div>
+
+  <script>
+    const name = localStorage.getItem("registeredUser");
+    const time = localStorage.getItem("registeredTime");
+    document.getElementById("message").textContent = `Thank you, ${name}! You registered on ${time}.`;
+  </script>
+
+</body>
+</html>

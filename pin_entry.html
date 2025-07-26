@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PIN Entry</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-image: url('images/bgimage_home.png'); /* Change path if needed */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      padding: 40px;
+      z-index: 1;
+      color: white;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .custom-btn {
+      background-color: #ff6f61;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .custom-btn:hover {
+      background-color: #e85c50;
+    }
+
+    #locationList li {
+      background-color: rgba(255, 255, 255, 0.85);
+    }
+  </style>
+</head>
+<body>
+
+<div class="overlay"></div>
+
+<div class="container d-flex flex-column align-items-center justify-content-center vh-100 position-relative">
+  <div class="glass-card text-center">
+    <h1>Discover Places in India</h1>
+    <p class="mb-3">Enter your 6-digit PIN code to begin your journey</p>
+    <form id="pinForm">
+      <input type="text" class="form-control mb-2" id="pinInput" placeholder="e.g. 560001" maxlength="6" required />
+      <div id="cityInfo" class="text-light mb-2 d-none"></div>
+      <button type="submit" class="btn custom-btn w-100">Add Location</button>
+    </form>
+    <div id="errorMsg" class="text-danger mt-3 d-none">Please enter a valid 6-digit PIN code.</div>
+  </div>
+
+  <ul id="locationList" class="list-group mt-4 w-50"></ul>
+
+  <button id="continueBtn" class="btn btn-success mt-3 d-none">Continue</button>
+</div>
+
+<script>
+  const pinInput = document.getElementById('pinInput');
+  const cityInfo = document.getElementById('cityInfo');
+  const errorMsg = document.getElementById('errorMsg');
+  const locationList = document.getElementById('locationList');
+  const continueBtn = document.getElementById('continueBtn');
+
+  let currentCity = '', currentState = '';
+  let locations = [];
+
+  pinInput.addEventListener('input', async function () {
+    const pin = pinInput.value.trim();
+
+    if (/^\d{6}$/.test(pin)) {
+      try {
+        const response = await fetch(`https://api.postalpincode.in/pincode/${pin}`);
+        const data = await response.json();
+
+        if (data[0].Status === 'Success') {
+          const postOffice = data[0].PostOffice[0];
+          currentCity = postOffice.District;
+          currentState = postOffice.State;
+          cityInfo.classList.remove('d-none');
+          cityInfo.textContent = `📍 ${currentCity}, ${currentState}`;
+          errorMsg.classList.add('d-none');
+        } else {
+          resetCurrent();
+          showError("PIN code not found.");
+        }
+      } catch (err) {
+        resetCurrent();
+        showError("Error fetching city. Try again.");
+      }
+    } else {
+      resetCurrent();
+    }
+  });
+
+  function resetCurrent() {
+    cityInfo.classList.add('d-none');
+    currentCity = '';
+    currentState = '';
+  }
+
+  function showError(msg) {
+    errorMsg.classList.remove('d-none');
+    errorMsg.textContent = msg;
+  }
+
+  document.getElementById('pinForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const pin = pinInput.value.trim();
+
+    if (/^\d{6}$/.test(pin) && currentCity !== '') {
+      if (locations.length >= 4) {
+        showError("You can only add 4 locations.");
+        return;
+      }
+
+      const location = { pin, city: currentCity, state: currentState };
+      locations.push(location);
+      renderList();
+
+      pinInput.value = '';
+      resetCurrent();
+
+      if (locations.length >= 1) {
+        continueBtn.classList.remove('d-none');
+      }
+    } else {
+      showError("Please enter a valid 6-digit PIN code.");
+    }
+  });
+
+  function renderList() {
+    locationList.innerHTML = '';
+    locations.forEach((loc, index) => {
+      const li = document.createElement('li');
+      li.className = 'list-group-item d-flex justify-content-between align-items-center';
+      li.innerHTML = `
+        ${loc.city}, ${loc.state} (${loc.pin})
+        <span>
+          <button class="btn btn-sm btn-outline-primary me-2" onclick="moveToTop(${index})">⬆️ Top</button>
+          <button class="btn btn-sm btn-outline-secondary" onclick="moveToBottom(${index})">⬇️ Bottom</button>
+        </span>
+      `;
+      locationList.appendChild(li);
+    });
+  }
+
+  window.moveToTop = function(index) {
+    if (index > 0) {
+      const [moved] = locations.splice(index, 1);
+      locations.unshift(moved);
+      renderList();
+    }
+  }
+
+  window.moveToBottom = function(index) {
+    if (index < locations.length - 1) {
+      const [moved] = locations.splice(index, 1);
+      locations.push(moved);
+      renderList();
+    }
+  }
+
+  continueBtn.addEventListener('click', () => {
+    const mainPin = locations[0].pin;
+    window.location.href = `customer_registration.html?pin=${mainPin}`;
+  });
+</script>
+
+</body>
+</html>
