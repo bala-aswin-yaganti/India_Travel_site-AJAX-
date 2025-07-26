@@ -3,68 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <title>Customer Registration</title>
+
+  <!-- Bootstrap CSS for responsive styling -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 
   <style>
+    /* Page Background Styling */
     body {
-  margin: 0;
-  padding: 0;
-  background-image: url('images/indian_food.png'); /* Make sure the path is correct */
-  background-size: cover;        /* Ensures the image covers the screen */
-  background-position: center;   /* Centers the image */
-  background-repeat: no-repeat;  /* Prevents tiling */
-  height: 100vh;                 /* Full viewport height */
-  width: 100vw;                  /* Full viewport width */
-  background-attachment: fixed;  /* Optional: creates a parallax effect */
-}
+      margin: 0;
+      padding: 0;
+      background-image: url('images/indian_food.png'); /* Background image */
+      background-size: cover;        /* Image covers the entire viewport */
+      background-position: center;   /* Center the image */
+      background-repeat: no-repeat;  /* No repeating */
+      height: 100vh;                 /* Full height of viewport */
+      width: 100vw;                  /* Full width of viewport */
+      background-attachment: fixed;  /* Optional parallax effect */
+    }
 
-
+    /* Glass-like registration form box */
     .form-container {
-      background: rgba(255, 255, 255, 0.85); /* White with slight transparency */
+      background: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
       padding: 30px;
       border-radius: 15px;
       max-width: 500px;
       margin: auto;
       margin-top: 80px;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25); /* Drop shadow */
     }
   </style>
 </head>
 <body>
 
-    
-
+  <!-- Bootstrap container for centering -->
   <div class="container">
     <div class="form-container">
       <h2 class="text-center mb-4">Customer Registration</h2>
+
+      <!-- Registration Form -->
       <form id="registrationForm">
 
-
+        <!-- Username (6–10 characters) -->
         <div class="mb-3">
           <label for="username" class="form-label">Username</label>
           <input type="text" class="form-control" id="username" required minlength="6" maxlength="10">
         </div>
 
+        <!-- Password (5–10 characters) -->
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <input type="password" class="form-control" id="password" required minlength="5" maxlength="10">
         </div>
 
+        <!-- Email field with placeholder -->
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <input type="email" class="form-control" id="email" placeholder="example@gmail.com">
         </div>
 
+        <!-- Phone number (pattern: 88-71-71-6969) -->
         <div class="mb-3">
           <label for="phone" class="form-label">Phone</label>
           <input type="tel" class="form-control" id="phone" placeholder="88-71-71-6969" pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{4}">
         </div>
 
+        <!-- Birthday selector -->
         <div class="mb-3">
           <label for="bday" class="form-label">Birthday</label>
           <input type="date" class="form-control" id="bday">
         </div>
 
+        <!-- Gender radio buttons -->
         <div class="mb-3">
           <label class="form-label">Gender</label><br>
           <div class="form-check form-check-inline">
@@ -77,6 +86,7 @@
           </div>
         </div>
 
+        <!-- Payment method dropdown -->
         <div class="mb-3">
           <label for="bill" class="form-label">Payment Method</label>
           <select class="form-select" id="bill">
@@ -86,39 +96,43 @@
           </select>
         </div>
 
+        <!-- Newsletter subscription checkbox -->
         <div class="mb-3 form-check">
           <input type="checkbox" class="form-check-input" id="subs">
           <label class="form-check-label" for="subs">Subscribe to newsletter</label>
         </div>
 
+        <!-- Comments textarea -->
         <div class="mb-3">
           <label for="cmmnt" class="form-label">Comments</label>
           <textarea class="form-control" id="cmmnt" rows="3"></textarea>
         </div>
 
-        
-
+        <!-- Submit and Reset buttons -->
         <button type="submit" class="btn btn-success w-100">Register</button>
         <button type="reset" class="btn btn-secondary w-100 mt-2">Reset</button>
+
       </form>
     </div>
   </div>
 
+  <!-- JavaScript to handle form submission -->
   <script>
-  document.getElementById("registrationForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // Prevent default form submission
+    // When form is submitted
+    document.getElementById("registrationForm").addEventListener("submit", function(e) {
+      e.preventDefault(); // Prevent default page reload
 
-    const username = document.getElementById("username").value;
-    const now = new Date().toLocaleString();
+      const username = document.getElementById("username").value;
+      const now = new Date().toLocaleString();
 
-    // Store values in localStorage
-    localStorage.setItem("registeredUser", username);
-    localStorage.setItem("registeredTime", now);
+      // Save username and registration time to local storage
+      localStorage.setItem("registeredUser", username);
+      localStorage.setItem("registeredTime", now);
 
-    // Redirect to congratulations page
-    window.location.href = "congratulations.html";
-  });
-</script>
+      // Redirect to congratulations page
+      window.location.href = "congratulations.html";
+    });
+  </script>
 
 </body>
 </html>
