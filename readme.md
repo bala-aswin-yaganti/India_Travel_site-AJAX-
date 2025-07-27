@@ -1,8 +1,8 @@
-#Explore Indian Cities — One PIN Code at a Time
+# Explore Indian Cities — One PIN Code at a Time
 
 Welcome to the project "Explore Indian Cities — One PIN Code at a Time"! This web application helps travelers discover both hidden and popular Indian cities by exploring India’s unique postal code (PIN) system. Users can generate travel itineraries tailored to their interests, simply by entering cities, places, or PIN codes.
 
-#Table of Contents
+# Table of Contents
 
       Features
       Project Structure
@@ -16,7 +16,7 @@ Postal Code Exploration: Navigate India using PIN codes to discover new cities a
 Customer Registration: Register for a personalized experience and save travel preferences.
 Completion Congratulations: Receive a unique congratulatory message after planning your journey.
 
-#Project Structure:
+# Project Structure:
             project-root/
           │
           ├── index.html                  # Landing page introducing the app
@@ -33,23 +33,23 @@ Completion Congratulations: Receive a unique congratulatory message after planni
           └── README.md                   # You are here!
 
 
-#Usage Instructions
+# Usage Instructions
 
-##Start on the Home Page (index.html):
+## Start on the Home Page (index.html):
 Learn about key features
 Click “Start Your Journey” to begin
 
-##Travel Preferences (pin_entry.html):
+## Travel Preferences (pin_entry.html):
 Input PIN codes, cities, or places you're interested in
 
-##User Registration (customer_registration.html):
+## User Registration (customer_registration.html):
 Register for tailored suggestions and storing your favorites
 
-##Completion (congratulations.html):
+## Completion (congratulations.html):
 Final page confirming successful plan or registration
 
 
-Getting Started
+# Getting Started
 
 1.Clone the Repository:
     git clone https://github.com/your_username/explore-indian-cities.git
